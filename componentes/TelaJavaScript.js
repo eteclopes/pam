@@ -1,93 +1,109 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, TextInput, Modal, Button } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import estilo from './estilo';
 
 export default function TelaJavaScript(props) {
-  const [t1, setT1] = useState(false);
-  const [t2, setT2] = useState(false);
-  const [t3, setT3] = useState(false);
-  const [t4, setT4] = useState(false);
-  const [t5, setT5] = useState(false);
-  const [t6, setT6] = useState(false);
-  const [t7, setT7] = useState(false);
-  const [t8, setT8] = useState(false);
-  const [t9, setT9] = useState(false);
-  const [t10, setT10] = useState(false);
+  const [tarefas, setTarefas] = useState([]);
+  const [novaTarefa, setNovaTarefa] = useState('');
+  const [modalVisivel, setModalVisivel] = useState(false);
+
+  const alternarTarefa = (id) => {
+    setTarefas(tarefas.map(tarefa =>
+      tarefa.id === id ? { ...tarefa, feito: !tarefa.feito } : tarefa
+    ));
+  };
+
+  const adicionarTarefa = () => {
+    if (novaTarefa.trim() !== '') {
+      const novaTarefaObj = {
+        id: Math.random().toString(),
+        nome: novaTarefa,
+        feito: false
+      };
+      setTarefas([...tarefas, novaTarefaObj]);
+      setModalVisivel(false);
+      setNovaTarefa('');
+    }
+  };
+
+  const cancelarTarefa = () => {
+    setModalVisivel(false);
+    setNovaTarefa('');
+  };
+
+  const excluirTarefa = (id) => {
+    setTarefas(tarefas.filter(tarefa => tarefa.id !== id));
+  };
 
   return (
     <View style={estilo.fundoJS}>
       <ScrollView>
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT1(!t1)}>
-            <MaterialCommunityIcons name={t1 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Escovar os Dentes</Text>
-        </View>
-
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT2(!t2)}>
-            <MaterialCommunityIcons name={t2 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Tomar Café da Manhã</Text>
-        </View>
-
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT3(!t3)}>
-            <MaterialCommunityIcons name={t3 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Estudar React Native</Text>
-        </View>
-
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT4(!t4)}>
-            <MaterialCommunityIcons name={t4 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Fazer Exercício</Text>
-        </View>
-
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT5(!t5)}>
-            <MaterialCommunityIcons name={t5 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Ler um Livro</Text>
-        </View>
-
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT6(!t6)}>
-            <MaterialCommunityIcons name={t6 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Revisar as Anotações</Text>
-        </View>
-
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT7(!t7)}>
-            <MaterialCommunityIcons name={t7 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Arrumar a Cama</Text>
-        </View>
-
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT8(!t8)}>
-            <MaterialCommunityIcons name={t8 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Verificar Emails</Text>
-        </View>
-
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT9(!t9)}>
-            <MaterialCommunityIcons name={t9 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Preparar o Almoço</Text>
-        </View>
-
-        <View style={estilo.tarefa}>
-          <TouchableOpacity onPress={() => setT10(!t10)}>
-            <MaterialCommunityIcons name={t10 ? "checkbox-marked" : "checkbox-blank-outline"} size={24} color="#0485e0" />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 10 }}>Meditar por 10 Minutos</Text>
-        </View>
+        {tarefas.map(tarefa => (
+          <View key={tarefa.id} style={estilo.tarefa}>
+            <TouchableOpacity onPress={() => alternarTarefa(tarefa.id)}>
+              <MaterialCommunityIcons
+                name={tarefa.feito ? "checkbox-marked" : "checkbox-blank-outline"}
+                size={24}
+                color="#0485e0"
+              />
+            </TouchableOpacity>
+            <Text style={{ marginLeft: 10 }}>{tarefa.nome}</Text>
+            <TouchableOpacity onPress={() => excluirTarefa(tarefa.id)} style={{ marginLeft: 'auto' }}>
+              <MaterialCommunityIcons
+                name="trash-can-outline"
+                size={24}
+                color="red"
+              />
+            </TouchableOpacity>
+          </View>
+        ))}
       </ScrollView>
+      <TouchableOpacity
+        style={{
+          position: 'absolute',
+          bottom: 30,
+          right: 30,
+          backgroundColor: '#0485e0',
+          borderRadius: 50,
+          padding: 15,
+        }}
+        onPress={() => setModalVisivel(true)}
+      >
+        <MaterialCommunityIcons name="plus" size={24} color="white" />
+      </TouchableOpacity>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisivel}
+        onRequestClose={cancelarTarefa}
+      >
+        <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        }}>
+          <View style={{
+            width: 300,
+            padding: 20,
+            backgroundColor: 'white',
+            borderRadius: 10,
+          }}>
+            <Text style={{ fontSize: 18, marginBottom: 10 }}>Adicionar Tarefa</Text>
+            <TextInput
+              style={{ borderBottomWidth: 1, marginBottom: 20, padding: 5 }}
+              placeholder="Digite o nome da tarefa"
+              value={novaTarefa}
+              onChangeText={setNovaTarefa}
+            />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Button title="Cancelar" onPress={cancelarTarefa} />
+              <Button title="Confirmar" onPress={adicionarTarefa} />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
