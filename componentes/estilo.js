@@ -3,17 +3,20 @@ import { StyleSheet } from "react-native";
 const estilo = StyleSheet.create({
   fundoJS: {
     flex: 1,
-    backgroundColor: '#f7df1e',
+    flexDirection:"column",
+    backgroundColor: '#fff',
+    
+    
   },
 
   fundoReact: {
     flex: 1,
-    backgroundColor: '#61dafb'
+    backgroundColor: '#fff'
   },
 
   fundoNode: {
     flex: 1,
-    backgroundColor: '#84bd48'
+    backgroundColor: '#fff'
   },
   
   container: {
@@ -49,6 +52,21 @@ const estilo = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center"
   },
+
+  tarefa:{
+  flexDirection:"row",
+  alignItems:"center",
+  border: 1,
+  borderColor:"black",
+  backgroundColor:"#dce3e8",
+  width:"90%",
+  height:60,
+ margin:10,
+  padding:15,
+  
+  
+
+  }
 });
 
 export default estilo;
