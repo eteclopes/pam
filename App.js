@@ -1,11 +1,11 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import TelaJavaScript from "./componentes/TelaJavaScript";
 import TelaNode from "./componentes/TelaNode";
 import TelaReact from "./componentes/TelaReact";
 
-const MenuNav = createBottomTabNavigator();
+const MenuNav = createDrawerNavigator();
 
 export default function App() {
   return (
