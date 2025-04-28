@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import TelaJavaScript from "./componentes/TelaJavaScript";
 import TelaNode from "./componentes/TelaNode";
